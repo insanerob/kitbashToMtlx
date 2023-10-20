@@ -3,7 +3,6 @@
 # 3Delight Substance and Glass materials
 # Add a primitive wrangle to alter the material paths 
 # @shop_materialpath = replace(s@shop_materialpath , '/obj/KB3D_HOK/matnet' , '/obj/MTLXmatnet') ;
-# @shop_materialpath += "/dlTerminal1" ;
         
 import hou
 
