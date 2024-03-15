@@ -19,8 +19,9 @@ It will now look for all principled shaders within that node and convert them to
 In the kitbash object geo node add a Primivite Wrangle node before the Output node.
 Add this vex (example for Mission To Minerva kit), change the KB3D_MTM to your geo name e.g. '/obj/KB3D_HOK/matnet' for Hong Kong kit )
 
+primitive wrangle:
 ```
-@shop_materialpath = replace(s@shop_materialpath , '/obj/KB3D_MTM/matnet' , '/obj/3dlmatnet') ;
+@shop_materialpath = replace(s@shop_materialpath , '/obj/KB3D_MTM/matnet' , '/obj/MTLXmatnet') ;
 ```
 
 ## Import OBJ to Stage 
