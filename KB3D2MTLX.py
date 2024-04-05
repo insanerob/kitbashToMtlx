@@ -153,6 +153,8 @@ def create_substance(texture_dict, matnet_name):
         emission_texture_parm2.set("lin_rec709")
         standard_parm_emission = standard.parm("emission")
         standard_parm_emission.set(emission_value)
+        standard_parm_specular = standard.parm("specular")
+        standard_parm_specular.set(specular_value)
         standard.setInput(37, emission_texture, 0)
 
     # create mtlx opactiy texture
@@ -270,9 +272,8 @@ def main():
     process_materials(materials_list, matnet_name)
     print("Finished Processing")
 
-    
+specular_value = float(hou.ui.readInput("Enter a default specular value (default is 0.00 i.e. dielectric):", buttons=("OK", "Cancel"), initial_contents="0.004")[1])
 emission_value = float(hou.ui.readInput("Enter a default emission value:", buttons=("OK", "Cancel"), initial_contents="2.0")[1])
 norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="")[1]
 main()
 
-    
