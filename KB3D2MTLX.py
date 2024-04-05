@@ -272,7 +272,7 @@ def main():
 
     
 emission_value = float(hou.ui.readInput("Enter a default emission value:", buttons=("OK", "Cancel"), initial_contents="2.0")[1])
-norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="srgb_tx")[1]
+norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="")[1]
 main()
 
     
