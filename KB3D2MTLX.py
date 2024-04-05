@@ -187,7 +187,7 @@ def create_substance(texture_dict, matnet_name):
         #normal_texture_parm1 = normal_texture.parm("signature")
         #normal_texture_parm1.set("color")
         normal_texture_parm2 = normal_texture.parm("filecolorspace")
-        normal_texture_parm2.set("lin_rec709")
+        normal_texture_parm2.set(norm_map_color_space)
         mtlx_normal_map.setInput(0, normal_texture, 0)
         standard.setInput(40, mtlx_normal_map, 0)
         
@@ -272,7 +272,7 @@ def main():
 
     
 emission_value = float(hou.ui.readInput("Enter a default emission value:", buttons=("OK", "Cancel"), initial_contents="2.0")[1])
-    
+norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="srgb_tx")[1]
 main()
 
     
