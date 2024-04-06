@@ -99,13 +99,46 @@ def create_matnet(matnet_name):
 def create_substance(texture_dict, matnet_name):
     # creates the 3dl material network with a substance shader
     matnet = hou.node(matnet_name)
-    
-    # create Collect node 
-    collect = matnet.createNode("collect", texture_dict['name'])
+
+    # create output final suface material - final surface material
+    material_out = matnet.createNode("mtlxsurfacematerial", texture_dict['name'])
+        
+#    # create output subnet connector - surface
+#    surface_out = matnet.createNode("subnetconnector", "surface_out" + texture_dict['name'])
+#    surface_out_parm1 = surface_out.parm("connectorkind")
+#    surface_out_parm1.set("output")
+#    surface_out_parm2 = surface_out.parm("parmname")
+#    surface_out_parm2.set("surface")
+#    surface_out_parm3 = surface_out.parm("parmlabel")
+#    surface_out_parm3.set("Surface")
+#    surface_out_parm4 = surface_out.parm("parmtype")
+#    surface_out_parm4.set("surface")
+#    
+#    material_out.setInput(0, surface_out, 0)
+#    
+#    # create output subnet connector - displacement
+#    displacement_out = matnet.createNode("subnetconnector", "displacement_out" + texture_dict['name'])
+#    displacement_out_parm1 = displacement_out.parm("connectorkind")
+#    displacement_out_parm1.set("output")
+#    displacement_out_parm2 = displacement_out.parm("parmname")
+#    displacement_out_parm2.set("displacement")
+#    displacement_out_parm3 = displacement_out.parm("parmlabel")
+#    displacement_out_parm3.set("Displacement")
+#    displacement_out_parm4 = displacement_out.parm("parmtype")
+#    displacement_out_parm4.set("displacement")
+#    
+#    material_out.setInput(1, displacement_out, 0)
+        
+        
+#    # create Collect node 
+#    collect = matnet.createNode("collect", texture_dict['name'])
     
     # create MTLX standard surface node
     standard = matnet.createNode("mtlxstandard_surface", "mtlx_standard_" + texture_dict['name'])
-    collect.setInput(0, standard, 0)
+    standard_parm_specular = standard.parm("specular")
+    standard_parm_specular.set(specular_value)
+        
+    material_out.setInput(0, standard, 0)
 
     # create mtxl base texture
     if (texture_dict["base"] != ""):
@@ -114,8 +147,8 @@ def create_substance(texture_dict, matnet_name):
         base_texture_parm.set(texture_dict["base"])
         #base_texture_parm1 = base_texture.parm("signature")
         #base_texture_parm1.set("Color")
-        base_texture_parm2 = base_texture.parm("filecolorspace")
-        base_texture_parm2.set("srgb_texture")
+#        base_texture_parm2 = base_texture.parm("filecolorspace")
+#        base_texture_parm2.set("srgb_texture")
         standard.setInput(1, base_texture, 0)
     
     
@@ -127,8 +160,8 @@ def create_substance(texture_dict, matnet_name):
         rough_texture_parm.set(texture_dict["rough"])
         rough_texture_parm1 = rough_texture.parm("signature")
         rough_texture_parm1.set("float")
-        rough_texture_parm2 = rough_texture.parm("filecolorspace")
-        rough_texture_parm2.set("lin_rec709")
+#        rough_texture_parm2 = rough_texture.parm("filecolorspace")
+#        rough_texture_parm2.set("lin_rec709")
         standard.setInput(6, rough_texture, 0)
 
     # create mtlx metallic texture
@@ -138,8 +171,8 @@ def create_substance(texture_dict, matnet_name):
         metallic_texture_parm.set(texture_dict["metallic"])
         metallic_texture_parm1 = metallic_texture.parm("signature")
         metallic_texture_parm1.set("float")
-        metallic_texture_parm2 = metallic_texture.parm("filecolorspace")
-        metallic_texture_parm2.set("lin_rec709")
+#        metallic_texture_parm2 = metallic_texture.parm("filecolorspace")
+#        metallic_texture_parm2.set("lin_rec709")
         standard.setInput(3, metallic_texture, 0)
         
     # create mtlx emission texture
@@ -149,8 +182,8 @@ def create_substance(texture_dict, matnet_name):
         emission_texture_parm.set(texture_dict["emission"])
         #emission_texture_parm1 = emission_texture.parm("signature")
         #emission_texture_parm1.set("Color")
-        emission_texture_parm2 = emission_texture.parm("filecolorspace")
-        emission_texture_parm2.set("lin_rec709")
+#        emission_texture_parm2 = emission_texture.parm("filecolorspace")
+#        emission_texture_parm2.set("lin_rec709")
         standard_parm_emission = standard.parm("emission")
         standard_parm_emission.set(emission_value)
         standard.setInput(37, emission_texture, 0)
@@ -162,8 +195,8 @@ def create_substance(texture_dict, matnet_name):
         opacity_texture_parm.set(texture_dict["opacity"])
         #opacity_texture_parm1 = opacity_texture.parm("signature")
         #opacity_texture_parm1.set("float")
-        opacity_texture_parm2 = opacity_texture.parm("filecolorspace")
-        opacity_texture_parm2.set("lin_rec709")
+#        opacity_texture_parm2 = opacity_texture.parm("filecolorspace")
+#        opacity_texture_parm2.set("lin_rec709")
         standard.setInput(38, opacity_texture, 0)
 
     # create mtlx transparency texture
@@ -173,21 +206,23 @@ def create_substance(texture_dict, matnet_name):
         transparency_texture_parm.set(texture_dict["transparency"])
         transparency_texture_parm1 = transparency_texture.parm("signature")
         transparency_texture_parm1.set("float")
-        transparency_texture_parm2 = transparency_texture.parm("filecolorspace")
-        transparency_texture_parm2.set("lin_rec709")
+#        transparency_texture_parm2 = transparency_texture.parm("filecolorspace")
+#        transparency_texture_parm2.set("lin_rec709")
         standard.setInput(10, transparency_texture, 0)
 
     # create mtlx normal texture
     if (texture_dict["normal"] != ""):
         mtlx_normal_map = matnet.createNode("mtlxnormalmap", "normalmap_" + texture_dict['name'])
-    
+        mtlx_normal_map_parm = mtlx_normal_map.parm("scale")
+        mtlx_normal_map_parm.set(normal_scale)
+        
         normal_texture = matnet.createNode("mtlximage", "normal_" + texture_dict['name'])
         normal_texture_parm =  normal_texture.parm("file")
         normal_texture_parm.set(texture_dict["normal"])
-        #normal_texture_parm1 = normal_texture.parm("signature")
-        #normal_texture_parm1.set("color")
-        normal_texture_parm2 = normal_texture.parm("filecolorspace")
-        normal_texture_parm2.set("lin_rec709")
+        normal_texture_parm1 = normal_texture.parm("signature")
+        normal_texture_parm1.set("vector3")
+#        normal_texture_parm2 = normal_texture.parm("filecolorspace")
+#        normal_texture_parm2.set(norm_map_color_space)
         mtlx_normal_map.setInput(0, normal_texture, 0)
         standard.setInput(40, mtlx_normal_map, 0)
         
@@ -195,7 +230,7 @@ def create_substance(texture_dict, matnet_name):
     if (texture_dict["displacement"] != ""):
         mtlx_disp_remap = matnet.createNode("mtlxremap", "disp_remap_" + texture_dict['name'])
         remap_parm = mtlx_disp_remap.parm("signature") 
-        remap_parm.set("1")
+        remap_parm.set("0")
         remap_parm1 = mtlx_disp_remap.parm("inlow") 
         remap_parm1.set("0.0")
         remap_parm2 = mtlx_disp_remap.parm("inhigh") 
@@ -208,15 +243,15 @@ def create_substance(texture_dict, matnet_name):
         displacement_texture = matnet.createNode("mtlximage", "displacement_" + texture_dict['name'])
         displacement_texture_parm =  displacement_texture.parm("file")
         displacement_texture_parm.set(texture_dict["displacement"])
-        #displacement_texture_parm1 = displacement_texture.parm("signature")
-        #displacement_texture_parm1.set("color")
-        displacement_texture_parm2 = displacement_texture.parm("filecolorspace")
-        displacement_texture_parm2.set("lin_rec709")
+        displacement_texture_parm1 = displacement_texture.parm("signature")
+        displacement_texture_parm1.set("color")
+#        displacement_texture_parm2 = displacement_texture.parm("filecolorspace")
+#        displacement_texture_parm2.set("lin_rec709")
         
         # create mtlx displacement node
         mtlx_disp = matnet.createNode("mtlxdisplacement", "disp_map_" + texture_dict['name'])
         disp_parm = mtlx_disp.parm("scale") 
-        disp_parm.set("0.02")
+        disp_parm.set(displacement_scale)
         
         # connect displacement texture to remap
         mtlx_disp_remap.setInput(0, displacement_texture, 0)
@@ -225,10 +260,12 @@ def create_substance(texture_dict, matnet_name):
         mtlx_disp.setInput(0, mtlx_disp_remap, 0)
         
         # connect mtlx_disp to collect
-        collect.setInput(1, mtlx_disp, 0)
+        material_out.setInput(1, mtlx_disp, 0)
     
     # Tidy up node layout
     matnet.layoutChildren()
+
+    
     
     
 def create_glass(texture_dict, matnet_name):
@@ -270,9 +307,10 @@ def main():
     process_materials(materials_list, matnet_name)
     print("Finished Processing")
 
-    
+specular_value = float(hou.ui.readInput("Enter a default specular value (default is 0.00 i.e. dielectric):", buttons=("OK", "Cancel"), initial_contents="0.004")[1])
 emission_value = float(hou.ui.readInput("Enter a default emission value:", buttons=("OK", "Cancel"), initial_contents="2.0")[1])
-    
+#norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="")[1]
+normal_scale = float(hou.ui.readInput("Enter a default normal scale:", buttons=("OK", "Cancel"), initial_contents="1.0")[1])
+displacement_scale = float(hou.ui.readInput("Enter a default displacement scale:", buttons=("OK", "Cancel"), initial_contents="0.1")[1])
 main()
 
-    
