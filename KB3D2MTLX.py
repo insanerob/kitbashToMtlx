@@ -135,6 +135,9 @@ def create_substance(texture_dict, matnet_name):
     
     # create MTLX standard surface node
     standard = matnet.createNode("mtlxstandard_surface", "mtlx_standard_" + texture_dict['name'])
+    standard_parm_specular = standard.parm("specular")
+    standard_parm_specular.set(specular_value)
+        
     material_out.setInput(0, standard, 0)
 
     # create mtxl base texture
@@ -147,11 +150,7 @@ def create_substance(texture_dict, matnet_name):
 #        base_texture_parm2 = base_texture.parm("filecolorspace")
 #        base_texture_parm2.set("srgb_texture")
         standard.setInput(1, base_texture, 0)
-        standard_parm_emission = standard.parm("emission")
-        standard_parm_emission.set(emission_value)
-        standard_parm_specular = standard.parm("specular")
-        standard_parm_specular.set(specular_value)
-
+    
     
     
     # create mtlx rough texture
@@ -185,6 +184,8 @@ def create_substance(texture_dict, matnet_name):
         #emission_texture_parm1.set("Color")
 #        emission_texture_parm2 = emission_texture.parm("filecolorspace")
 #        emission_texture_parm2.set("lin_rec709")
+        standard_parm_emission = standard.parm("emission")
+        standard_parm_emission.set(emission_value)
         standard.setInput(37, emission_texture, 0)
 
     # create mtlx opactiy texture
