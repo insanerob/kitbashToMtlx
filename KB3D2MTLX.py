@@ -307,7 +307,7 @@ def main():
     process_materials(materials_list, matnet_name)
     print("Finished Processing")
 
-specular_value = float(hou.ui.readInput("Enter a default specular value (default is 0.00 i.e. dielectric):", buttons=("OK", "Cancel"), initial_contents="0.004")[1])
+specular_value = float(hou.ui.readInput("Enter a default specular value (default is 0.00 i.e. dielectric):", buttons=("OK", "Cancel"), initial_contents="0.04")[1])
 emission_value = float(hou.ui.readInput("Enter a default emission value:", buttons=("OK", "Cancel"), initial_contents="2.0")[1])
 #norm_map_color_space = hou.ui.readInput("Normal map colour space (ACEScg, lin_rec709, srgb_tx, Raw):", buttons=("OK", "Cancel"), initial_contents="")[1]
 normal_scale = float(hou.ui.readInput("Enter a default normal scale:", buttons=("OK", "Cancel"), initial_contents="1.0")[1])
